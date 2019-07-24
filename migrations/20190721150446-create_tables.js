@@ -36,7 +36,7 @@ module.exports = {
                 }),
 
                 queryInterface.createTable("registration", {
-                    teacher: {
+                    teacherEmail: {
                         type: Sequelize.STRING(254),
                         allowNull: false,
                         primaryKey: true,
@@ -45,7 +45,7 @@ module.exports = {
                             key: 'email'
                         }
                     },
-                    student: {
+                    studentEmail: {
                         type: Sequelize.STRING(254),
                         allowNull: false,
                         primaryKey: true,
@@ -53,6 +53,14 @@ module.exports = {
                             model: 'student',
                             key: 'email'
                         }
+                    },
+                    createdAt: {
+                        allowNull: false,
+                        type: Sequelize.DATE
+                    },
+                    updatedAt: {
+                        allowNull: false,
+                        type: Sequelize.DATE
                     }
                 })])
     },

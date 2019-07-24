@@ -1,7 +1,7 @@
 'use strict';
 module.exports = function(sequelize, DataTypes) {
   return sequelize.define('registration', {
-    teacher: {
+    teacherEmail: {
       type: DataTypes.STRING(254),
       allowNull: false,
       primaryKey: true,
@@ -10,7 +10,7 @@ module.exports = function(sequelize, DataTypes) {
         key: 'email'
       }
     },
-    student: {
+    studentEmail: {
       type: DataTypes.STRING(254),
       allowNull: false,
       primaryKey: true,
@@ -21,5 +21,5 @@ module.exports = function(sequelize, DataTypes) {
     }
   }, {
     tableName: 'registration'
-  });
+  })
 };

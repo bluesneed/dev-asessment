@@ -1,12 +1,16 @@
 const express = require('express');
 const router = express.Router();
-const registerController = require('../controllers/RegisterController')
+const registerController = require('../controllers/register');
 
-router.post('/', (req, res, next) => {
-   registerController.create(req,res);
-    // res.status(200).json({
-    //     result: 'ok'
-    // })
-});
+const commonstudentsController = require('../controllers/commonstudents');
+
+router.post('/register',
+    registerController.validateRegister()
+    , registerController.register);
+
+
+router.get('/commonstudents',
+    commonstudentsController.validateRegister(),
+    commonstudentsController.register);
 
 module.exports = router;
