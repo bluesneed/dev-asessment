@@ -15,7 +15,7 @@ router.post('/register',
 
 
 router.get('/commonstudents',
-    commonstudentsController.validateRegister(),
+    commonstudentsController.validate(),
     commonstudentsController.register);
 
 

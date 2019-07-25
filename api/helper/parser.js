@@ -17,16 +17,13 @@ module.exports = {
     parseGetListEmailArrayByTeacherSize(students, teacher) {
 
 
-        const emails = students.map(a => a.studentEmail).sort()
-        console.log(">>>>> studentes is " + emails)
+        const emails = students.map(a => a.studentEmail).sort();
 
-        if (teacher.constructor !== Array) {
+        if (teacher.length === Array) {
             return emails
         }
 
-        const size = teacher.length
-        console.log(">>>>> size is " + size)
-
+        const size = teacher.length;
 
         const filtered = [];
         let cnt = 0;

@@ -21,7 +21,7 @@ module.exports = {
                         obj.message = value.trim()
                     } else {
                         value = validator.trim(value);
-                        value = value.toLowerCase()
+                        value = value.toLowerCase();
                         obj.students.push({studentEmail: value})
                     }
                 });
