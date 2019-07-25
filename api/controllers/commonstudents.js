@@ -4,6 +4,9 @@ const errorResponse = require('../helper/ErrorResponse');
 const {query} = require('express-validator');
 const {validationResult} = require('express-validator');
 const parser = require('../helper/parser');
+const url = require('url');
+const qs = require('querystring');
+
 
 module.exports = {
     validateRegister() {
@@ -24,7 +27,9 @@ module.exports = {
 
 
 fetch = function (req, res) {
-    const teachers = req.query.teacher
+    const arg = url.parse(req.url).query;
+    const teachers = qs.parse(arg)['teacher'];
+    console.log(teachers);
 
     return registrationModel
         .findAll({
@@ -34,7 +39,8 @@ fetch = function (req, res) {
             }
         ).then(students => {
             if (students) {
-                const result = parser.parseStudentListToEmailArray(students)
+
+                const result = parser.parseGetListEmailArrayByTeacherSize(students,  teachers)
                 res.status(200).json({
                     "students": result
                 });
