@@ -14,7 +14,7 @@ module.exports = {
             body('teacher', 'Teacher is not valid email.').trim().isEmail().normalizeEmail(),
             body('students', 'Students must be array',).isArray(),
             body('students', 'Students must not be empty',).custom(customValidator.validateArrayNotEmpty),
-            body('students.*', 'Or or some of the students are not valid emails').trim().isEmail().normalizeEmail()
+            body('students.*', 'One or some of the students are not valid emails').trim().isEmail().normalizeEmail()
         ]
     }
     ,

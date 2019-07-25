@@ -13,7 +13,19 @@
   "tags": [
     {
       "name": "Register",
-      "description": "API for users in the system"
+      "description": "API for Registration"
+    },
+    {
+      "name": "Suspend",
+      "description": "API for Suspend Student"
+    },
+    {
+      "name": "Commonstudents",
+      "description": "API for get common Student"
+    },
+    {
+      "name": "Retrievefornotificatioins",
+      "description": "API for get common Student"
     }
   ],
   "schemes": [
@@ -31,12 +43,11 @@
         "tags": [
           "Register"
         ],
-        "description": "Create new user in system",
         "parameters": [
           {
             "name": "register",
             "in": "body",
-            "description": "User that we want to create",
+            "description": "",
             "schema": {
               "$ref": "#/definitions/RegistrationRequest"
             }
@@ -47,8 +58,103 @@
         ],
         "responses": {
           "204": {
-            "description": "New user is created",
+            "description": "Register Success",
             "schema": {
+            }
+          },
+          "422": {
+            "description": "Error",
+            "schema": {
+            }
+          }
+        }
+      }
+    },
+    "/suspend": {
+      "post": {
+        "tags": [
+          "Suspend"
+        ],
+        "description": "Un-register students to all the teachers",
+        "parameters": [
+          {
+            "name": "suspend",
+            "in": "body",
+            "schema": {
+              "$ref": "#/definitions/SuspendRequest"
+            }
+          }
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "responses": {
+          "204": {
+            "description": "Student is suspended",
+            "schema": {
+            }
+          }
+        }
+      }
+    },
+    "/commonstudents": {
+      "get": {
+        "tags": [
+          "Commonstudents"
+        ],
+        "description": "",
+        "parameters": [
+          {
+            "name": "teacher",
+            "in": "query",
+            "description": "teacher emails",
+            "required": true,
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "collectionFormat": "multi"
+          }
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "responses": {
+          "204": {
+            "description": "",
+            "schema": {
+              "$ref": "#/definitions/CommonStudentResponse"
+
+            }
+          }
+        }
+      }
+    },
+    "/retrievefornotifications": {
+      "post": {
+        "tags": [
+          "Retrievefornotificatioins"
+        ],
+        "description": "",
+        "parameters": [
+          {
+            "name": "teacher",
+            "in": "body",
+            "required": true,
+            "description": "",
+            "schema": {
+              "$ref": "#/definitions/NotificationRequest"
+            }
+          }
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "responses": {
+          "204": {
+            "description": "Students that register both teachers",
+            "schema": {
+              "$ref": "#/definitions/NotificationResponse"
             }
           }
         }
@@ -73,7 +179,30 @@
         }
       }
     },
-
+    "SuspendRequest": {
+      "required": [
+        "student"
+      ],
+      "properties": {
+        "student": {
+          "type": "string"
+        }
+      }
+    },
+    "NotificationRequest": {
+      "required": [
+        "teacher",
+        "notification"
+      ],
+      "properties": {
+        "teacher": {
+          "type": "string"
+        },
+        "notification": {
+          "type": "string"
+        }
+      }
+    },
     "RegistrationResponse": {
       "required": [
         "teacher",
@@ -91,9 +220,41 @@
         }
       }
     },
-    "Users": {
-      "type": "array",
-      "$ref": "#/definitions/User"
+    "ErrorResponse": {
+      "required": [
+        "message"
+      ],
+      "properties": {
+        "message": {
+          "type": "string"
+        }
+      }
+    },
+    "CommonStudentResponse":{
+      "required": [
+        "students"
+      ],
+      "properties": {
+        "students": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "NotificationResponse": {
+      "required": [
+        "recipients"
+      ],
+      "properties": {
+        "recipients": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        }
+      }
     }
   }
 }
