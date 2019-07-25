@@ -2,28 +2,26 @@ const teacherModel = require('../../models').teacher;
 const studentModel = require('../../models').student;
 const registrationModel = require('../../models').registration;
 const sequelize = require('../../models/index').sequelize;
-const errorResponse = require('./ErrorResponse');
+const errorResponse = require('../helper/ErrorResponse');
 const {body, header} = require('express-validator');
 const {validationResult} = require('express-validator');
-const customValidator = require('./customValidator');
+const customValidator = require('../helper/customValidator');
 
 module.exports = {
     validateRegister() {
         return [
-            header('content-type', 'Content-type must be JSON').equals("application/json"),
             body('teacher', 'Please specify teacher field.').exists(),
-            body('teacher', 'Teacher is not valid email.').isEmail(),
+            body('teacher', 'Teacher is not valid email.').trim().isEmail().normalizeEmail(),
             body('students', 'Students must be array',).isArray(),
             body('students', 'Students must not be empty',).custom(customValidator.validateArrayNotEmpty),
-            body('students', 'Some of the Students are not valid emails').custom(customValidator.validateEmailArray)
+            body('students.*', 'Or or some of the students are not valid emails').trim().isEmail().normalizeEmail()
         ]
     }
     ,
     register(req, res, next) {
         const errors = validationResult(req); // Finds the validation errors in this request and wraps them in an object with handy functions
         if (!errors.isEmpty()) {
-            const formattedString = formatError(errors)
-            res.status(422).json({message: formattedString});
+            res.status(422).json({message: errorResponse.formatError(errors)});
             return;
         }
         const teacherEmail = req.body.teacher;
@@ -64,16 +62,6 @@ module.exports = {
 };
 
 
-function formatError(errors) {
-    let formattedString = '';
-    errors.array().forEach((value, index, array) => {
-        formattedString = formattedString + value.msg
-        if (index !== array.length - 1) {
-            formattedString = formattedString + '|'
-        }
-    });
-    return formattedString
-}
 
 function insertTeacherIfNotExist(teacher, tran) {
     return teacherModel

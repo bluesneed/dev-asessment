@@ -3,16 +3,17 @@ const app = express();
 const morgan = require('morgan');
 const bodyParser = require('body-parser');
 const registerRoutes = require('./api/routes/register');
+const { body } = require('express-validator');
 
 var swaggerUi = require('swagger-ui-express'),
     swaggerDocument = require('./dist/swagger.json');
 app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 // app.use('/api/v1', router);
-
 app.use(morgan('dev'));
 app.use(bodyParser.urlencoded({extended: false}));
 app.use(bodyParser.json({limit: '10mb'}));
-// app.use(bodyParser());
+
+
 
 // app.use(expressValidator())
 app.use((req, res, next) => {

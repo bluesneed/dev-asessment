@@ -38,7 +38,7 @@
             "in": "body",
             "description": "User that we want to create",
             "schema": {
-              "$ref": "#/definitions/User"
+              "$ref": "#/definitions/RegistrationRequest"
             }
           }
         ],
@@ -46,10 +46,9 @@
           "application/json"
         ],
         "responses": {
-          "200": {
+          "204": {
             "description": "New user is created",
             "schema": {
-              "$ref": "#/definitions/User"
             }
           }
         }
@@ -57,25 +56,38 @@
     }
   },
   "definitions": {
-    "User": {
+    "RegistrationRequest": {
       "required": [
-        "email",
-        "_id"
+        "teacher",
+        "students"
       ],
       "properties": {
-        "_id": {
-          "type": "string",
-          "uniqueItems": true
-        },
-        "email": {
-          "type": "string",
-          "uniqueItems": true
-        },
-        "lastName": {
+        "teacher": {
           "type": "string"
         },
-        "firstName": {
+        "students": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        }
+      }
+    },
+
+    "RegistrationResponse": {
+      "required": [
+        "teacher",
+        "students"
+      ],
+      "properties": {
+        "teacher": {
           "type": "string"
+        },
+        "students": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
         }
       }
     },
